@@ -6,8 +6,16 @@
  * to expose Node.js functionality from the main process.
  */
 
-(async() => {
-    console.log(await window.exposed.getStuffFromMain())
-    
-    await window.exposed.sendStuffToMain('Stuff from renderer')
-})()
+getUsers = async() => {
+    console.log('getNotes')
+console.log(await window.exposed.getStuffFromMain())
+await window.exposed.sendStuffToMain('Stuff from renderer')
+
+const notes = await window.electron.getNotes()
+console.log(note)
+}
+getNotes()
+
+document.querySelector('#btn-login').addEventListener('click', cabinsLogin)
+
+

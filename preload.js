@@ -6,10 +6,20 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('exposed', {
 
+getUsers: () => {
+  return ipcRenderer.invoke('get-users')
+}
+})
+
+/*btnClick: () => {
+
+  console.log('button clicked (preload)')
+  return ipcRenderer.invoke()
+,
   // expose a function in main (node) to renderer
   getStuffFromMain: () => ipcRenderer.invoke('get-stuff-from-main'),
 
   // send data back to main
   sendStuffToMain: (data) => ipcRenderer.invoke('send-stuff-to-main', data)
 
-})
+})*/

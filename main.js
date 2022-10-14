@@ -1,6 +1,11 @@
+
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
+const fetch = require('electron-fetch').default
+
+//move to dot env or similar
+const API_URL = "https://stugmaklaren.azurewebsites.net"
 
 function createWindow () {
   // Create the browser window.
@@ -30,6 +35,7 @@ app.whenReady().then(() => {
   // Check original template for MacOS stuff!
 })
 
+
 // Example functions for communication between main and renderer (backend/frontend)
 ipcMain.handle('get-stuff-from-main', () => 'Stuff from main!')
 ipcMain.handle('send-stuff-to-main', async (event, data) => console.log(data))
@@ -40,4 +46,36 @@ app.on('window-all-closed', function () {
   // Check original template for MacOS stuff!
 })
 
+ipcMain.handle('get-users', async () => {
+  console.log('get-users(main)')
+try {
+  const resp = await fetch(API_URL + '/cabins', {
+    timeout: 2000
+  })
+  const cabins = await resp.json()
+  return cabins 
 
+}catch (error){
+    console.log(error.message)
+    return false
+  }
+})
+
+ipcMain.handle('cabins-login', async () => {
+  console.log('cabins-login(main)')
+try {
+  const resp = await fetch(API_URL + '/users/login', {
+    
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body),
+    timeout: 2000
+  })
+  const cabins = await resp.json()
+  return cabins 
+
+}catch (error){
+    console.log(error.message)
+    return false
+  }
+})
